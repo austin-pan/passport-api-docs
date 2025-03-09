@@ -120,7 +120,7 @@ Undocumented: The fn() you pass can be a `fn(req, user, done)`.  If multiple ser
 
 ### passport.deserializeUser(fn(serializedUser, done) | fn(req, serializedUser, done))
 
-Passport will call this to deserialize the user from the session.  Should call done(null, user).  The `serializedUser` is `req.session.passport.user`.
+Passport will call this to deserialize the user from the session.  Should call `done(null, user)`.  The `serializedUser` is `req.session.passport.user`.
 
 It can happen that a user is stored in the session, but that user is no longer in your database (maybe the user was deleted, or did something to invalidate their session).  In this case, the deserialize function should pass `null` or `false` for the user, not `undefined`.
 
@@ -156,15 +156,15 @@ export default class SessionStrategy extends Strategy {
      */
     authenticate(req, options) {
         if(req.cookie.apikey === '6398d011-d80f-4db1-a36a-5dcee2e259d0') {
-        this.success({username: 'dave'});
-    } else {
-        this.fail();
-    }
+            this.success({username: 'dave'});
+        } else {
+            this.fail();
+        }
     }
 }
 ```
 
-Note when calling `fail()`, the `challenge` should be either a challenge string as defined by [RFC 7235 S2.1](https://tools.ietf.org/html/rfc7235#section-2.1), suitable for including in a WWW-Authenticate header, or else a `{message, type}` object, were `message` is the message to use a a "flash message", and `type` is the flash type (defaults to 'error').
+Note when calling `fail()`, the `challenge` should be either a challenge string as defined by [RFC 7235 S2.1](https://tools.ietf.org/html/rfc7235#section-2.1), suitable for including in a WWW-Authenticate header, or else a `{message, type}` object, where `message` is the message to use a "flash message", and `type` is the flash type (defaults to 'error').
 
 ### Verify Callback
 
